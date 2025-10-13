@@ -1,0 +1,45 @@
+
+class Animal {
+    void eat() {
+        System.out.println("Animal is eating");
+    }
+}
+
+
+class Pet extends Animal {
+    void sleep() {
+        System.out.println("Pet is sleeping");
+    }
+}
+
+
+class Dog extends Pet {
+    void bark() {
+        System.out.println("Dog is barking");
+    }
+}
+
+
+class Cat extends Pet {
+    void meow() {
+        System.out.println("Cat is meowing");
+    }
+}
+
+
+public class Main {
+    public static void main(String[] args) {
+        Dog d = new Dog();
+        Cat c = new Cat();
+
+        System.out.println("---- Dog Object ----");
+        d.eat();   // From Animal
+        d.sleep(); // From Pet
+        d.bark();  // From Dog
+
+        System.out.println("---- Cat Object ----");
+        c.eat();   // From Animal
+        c.sleep(); // From Pet
+        c.meow();  // From Cat
+    }
+}
