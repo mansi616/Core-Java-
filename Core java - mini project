@@ -1,0 +1,148 @@
+    import java.util.*;
+
+abstract class Vehicle {
+    private String id;
+    private String model;
+    private double pricePerDay;
+    private boolean available = true;
+
+    public Vehicle(String id, String model, double pricePerDay) {
+        this.id = id;
+        this.model = model;
+        this.pricePerDay = pricePerDay;
+    }
+
+    public String getId() { return id; }
+    public String getModel() { return model; }
+    public double getPricePerDay() { return pricePerDay; }
+    public boolean isAvailable() { return available; }
+    public void setAvailable(boolean available) { this.available = available; }
+
+    public abstract void showDetails();
+    public abstract double calculateRentalCost(int days);
+}
+
+class Car extends Vehicle {
+    private int seats;
+
+    public Car(String id, String model, double price, int seats) {
+        super(id, model, price);
+        this.seats = seats;
+    }
+
+    @Override
+    public void showDetails() {
+        System.out.println("[Car] ID: " + getId() + ", Model: " + getModel() +
+                ", Seats: " + seats + ", Price/Day: ₹" + getPricePerDay() +
+                ", Available: " + isAvailable());
+    }
+
+    @Override
+    public double calculateRentalCost(int days) {
+        return getPricePerDay() * days;
+    }
+}
+
+class Bike extends Vehicle {
+    private int engineCC;
+
+    public Bike(String id, String model, double price, int engineCC) {
+        super(id, model, price);
+        this.engineCC = engineCC;
+    }
+
+    @Override
+    public void showDetails() {
+        System.out.println("[Bike] ID: " + getId() + ", Model: " + getModel() +
+                ", CC: " + engineCC + ", Price/Day: ₹" + getPricePerDay() +
+                ", Available: " + isAvailable());
+    }
+
+    @Override
+    public double calculateRentalCost(int days) {
+        return getPricePerDay() * days;
+    }
+}
+
+class Truck extends Vehicle {
+    private double loadCapacity;
+
+    public Truck(String id, String model, double price, double loadCapacity) {
+        super(id, model, price);
+        this.loadCapacity = loadCapacity;
+    }
+
+    @Override
+    public void showDetails() {
+        System.out.println("[Truck] ID: " + getId() + ", Model: " + getModel() +
+                ", Load Capacity: " + loadCapacity + " tons, Price/Day: ₹" + getPricePerDay() +
+                ", Available: " + isAvailable());
+    }
+
+    @Override
+    public double calculateRentalCost(int days) {
+        return getPricePerDay() * days;
+    }
+}
+
+class RentalService {
+    private List<Vehicle> vehicles = new ArrayList<>();
+
+    public void addVehicle(Vehicle v) {
+        vehicles.add(v);
+    }
+
+    public void showAvailableVehicles() {
+        System.out.println("\n--- AVAILABLE VEHICLES ---");
+        for (Vehicle v : vehicles) {
+            if (v.isAvailable()) {
+                v.showDetails();
+            }
+        }
+    }
+
+    public void rentVehicle(String id, int days) {
+        for (Vehicle v : vehicles) {
+            if (v.getId().equalsIgnoreCase(id)) {
+                if (v.isAvailable()) {
+                    v.setAvailable(false);
+                    double total = v.calculateRentalCost(days);
+                    System.out.println("\nBooking Successful!");
+                    System.out.println("Vehicle Rented: " + v.getModel());
+                    System.out.println("Days: " + days);
+                    System.out.println("Total Amount: ₹" + total);
+                    return;
+                } else {
+                    System.out.println("Vehicle is already rented!");
+                    return;
+                }
+            }
+        }
+        System.out.println("Vehicle Not Available or Invalid ID.");
+    }
+}
+
+public class VehicleRentalDemo {
+    public static void main(String[] args) {
+        RentalService service = new RentalService();
+
+        service.addVehicle(new Car("C1", "Swift", 1000, 4));
+        service.addVehicle(new Car("C2", "Innova", 2500, 7));
+        service.addVehicle(new Bike("B1", "Royal Enfield", 800, 350));
+        service.addVehicle(new Bike("B2", "Activa", 400, 110));
+        service.addVehicle(new Truck("T1", "Tata Ace", 3000, 1.5));
+        service.addVehicle(new Truck("T2", "Ashok Leyland", 5000, 3));
+
+        service.showAvailableVehicles();
+
+        System.out.println("\nRenting Vehicle ID: C1 for 3 days");
+        service.rentVehicle("C1", 3);
+
+        System.out.println("\nRenting Vehicle ID: T2 for 2 days");
+        service.rentVehicle("T2", 2);
+
+        service.showAvailableVehicles();
+
+        System.out.println("\nThank you for using Vehicle Rental System!");
+    }
+}
