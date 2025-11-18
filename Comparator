@@ -1,0 +1,26 @@
+import java.util.*;
+
+class Student {
+    int age;
+    Student(int age) { this.age = age; }
+    public String toString() 
+{ return age + ""; 
+}
+}
+
+public class ComparatorExample {
+    public static void main(String[] args) {
+        ArrayList<Student> list = new ArrayList<>();
+
+        list.add(new Student(25));
+        list.add(new Student(20));
+
+        Collections.sort(list, new Comparator<Student>() {
+            public int compare(Student a, Student b) {
+                return b.age - a.age; 
+            }
+        });
+
+        System.out.println(list);
+    }
+}
