@@ -1,0 +1,13 @@
+import java.util.*;
+
+public class TreeMapExample {
+    public static void main(String[] args) {
+        TreeMap<Integer, String> map = new TreeMap<>();
+
+        map.put(30, "X");
+        map.put(10, "Y");
+        map.put(20, "Z");
+
+        System.out.println(map);
+    }
+}
